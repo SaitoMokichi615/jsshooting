@@ -49,6 +49,11 @@ export class Player {
             this.x += input.touch.dx;
             this.y += input.touch.dy;
         }
+
+        // 画面外の出ないようにする制御処理
+        const r = 20; // キャラの半径
+        this.x = Math.max(r, Math.min(this.game.canvas.width - r, this.x));
+        this.y = Math.max(r, Math.min(this.game.canvas.height - r, this.y));
     }
 
     shoot() {
