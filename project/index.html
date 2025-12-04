@@ -3,19 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Shooting Game</title>
+
+    <!-- スマホ用 viewport -->
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <style>
-        body {
-        margin: 0;
-        background: white;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
         }
+
         canvas {
-        background: lightgray;
-        border: 1px solid #444;
+            width: 100vw;
+            height: 100vh;
+            display: block;
+            background: lightgray;
+            border: 1px solid #444;
+
+            /* タッチ時のズームやスクロールを完全無効化 */
+            touch-action: none;
         }
     </style>
 </head>
@@ -31,33 +41,27 @@
     const canvas = document.getElementById("game");
     const game = new Game(canvas);
 
-    // ---- 画像アセットを登録する ----
     const assets = new AssetLoader();
 
     const imageList = [
         { name: "player", path: "./assets/images/player.png" },
-    //     { name: "boss", path: "./assets/images/boss.png" },
-    //     { name: "bullet", path: "./assets/images/bullet.png" },
-    //     { name: "support_shield", path: "./assets/images/support_shield.png" },
-    //     { name: "support_bomb", path: "./assets/images/support_bomb.png" },
-    //     { name: "ui_stock", path: "./assets/images/ui_stock.png" }
     ];
 
-    // ---- ゲーム開始 ----
     assets.loadImages(imageList).then(() => {
-        console.log("Assets loaded!");
-
-        // 全シーンから assets を参照できるようにする
         game.assets = assets;
-
-        // 最初は TitleScene に遷移
         game.changeScene(new TitleScene(game));
-
         game.start();
-    }).catch(err => {
-        console.error("Asset load failed.", err);
     });
-
 </script>
+
+<!-- iPhoneのダブルタップズーム防止 -->
+<script>
+document.addEventListener("touchstart", e => {
+    if (e.touches.length > 1) e.preventDefault();
+}, { passive: false });
+
+document.addEventListener("gesturestart", e => e.preventDefault());
+</script>
+
 </body>
 </html>
