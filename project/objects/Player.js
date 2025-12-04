@@ -41,14 +41,16 @@ export class Player {
         if (input.keys["ArrowDown"]) this.y += moveSpeed * dt;
         if (input.keys["ArrowLeft"]) this.x -= moveSpeed * dt;
         if (input.keys["ArrowRight"]) this.x += moveSpeed * dt;
-        if (input.isTouching) {
-            this.x += input.deltaX;
-            this.y += input.deltaY;
-        }
+
+        // --- タッチ移動 ---
         if (input.touch.active) {
             this.x += input.touch.dx;
             this.y += input.touch.dy;
         }
+
+        // --- ここが重要！ dx/dy を毎フレームリセット ---
+        input.touch.dx = 0;
+        input.touch.dy = 0;
 
         // 画面外の出ないようにする制御処理
         const r = 20; // キャラの半径
