@@ -5,7 +5,7 @@ export class PlayerBullet {
         this.speed = 400;
         this.radius = 4;
         this.isDead = false;
-        this.damage = 5;
+        this.damage = 1;
     }
 
     update(dt) {

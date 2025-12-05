@@ -1,5 +1,4 @@
 // /bosses/BossBase.js
-import { Bullet } from "../objects/Bullet.js";
 
 export class BossBase {
     constructor(x, y, game) {
@@ -12,6 +11,8 @@ export class BossBase {
 
         this.bullets = [];
         this.fireTimer = 0;
+
+        this.hitRadius = 30
     }
 
     update(dt) {
@@ -24,6 +25,10 @@ export class BossBase {
         if (this.phase === 3) this.updatePhase3(dt);
 
         this.bullets.forEach(b => b.update(dt));
+    }
+
+    takeDamage(amount) {
+        this.hp -= amount;
     }
 
     updatePhase() {

@@ -70,7 +70,7 @@ export class StageScene extends Scene {
             b.update(dt);
 
             if (b.collides(this.boss)) {
-                this.boss.hp -= b.damage;
+                this.boss.takeDamage(b.damage ?? 1);
                 b.isDead = true;
             }
 
@@ -79,7 +79,7 @@ export class StageScene extends Scene {
             }
         }
 
-        // プレイヤーとbボスの弾の当たり判定
+        // プレイヤーとボスの弾の当たり判定
         for (let i = this.boss.bullets.length - 1; i >= 0; i--) {
             const b = this.boss.bullets[i];
             if (b.collides(this.player)) {

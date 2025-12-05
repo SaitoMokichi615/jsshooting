@@ -1,28 +1,35 @@
 // /bosses/BossStage2.js
 import { BossBase } from "./BossBase.js";
-import { Bullet } from "../objects/Bullet.js";
+import { OrbitalBullet } from "../bullets/OrbitalBullet.js";
 
 export class BossStage2 extends BossBase {
-    updatePhase1(dt) {
-        if (this.fireTimer > 0.7) {
-            this.fireTimer = 0;
-            for (let a = -0.5; a <= 0.5; a += 0.25) {
-                this.spawnBullet(new Bullet(this.x, this.y, -200, 200 * a, this.game, "boss2_bullet", 16));
-            }
-            // this.spawnBullet(new Bullet(this.x, this.y, -250, 0));
-        }
-    }
-
-    updatePhase2(dt) {
-        if (this.fireTimer > 0.4) {
-            this.fireTimer = 0;
-            for (let a = -0.7; a <= 0.7; a += 0.1) {
-                this.spawnBullet(new Bullet(this.x, this.y, -200, 200 * a, this.game, "boss2_bullet", 16));
-            }
-        }
-    }
-
     
+
+    updatePhase1(dt) {
+        if (this.fireTimer > 1.5) {
+            this.fireTimer = 0;
+
+            // 6個の円軌道弾を一斉発射
+            for (let i = 0; i < 6; i++) {
+                const angle = (Math.PI * 2 / 6) * i;
+
+                this.spawnBullet(
+                    new OrbitalBullet(
+                        this,        // ボスの中心を追従
+                        angle,       // 初期角度
+                        20,          // 最小半径
+                        120,         // 最大半径
+                        2,           // 回転速度
+                        40,          // 半径伸縮速度
+                        this.game,
+                        "boss2_bullet",
+                        16
+                    )
+                );
+            }
+        }
+    }
+
     draw(ctx) {
         const img = this.game.assets.getImage("boss2");
         if (img) {
