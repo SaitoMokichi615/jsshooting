@@ -1,172 +1,65 @@
+// core/Input.js
 export class Input {
     constructor(canvas) {
+        this.canvas = canvas;
+
         this.keys = {};
         this.mouse = { x: 0, y: 0, clicked: false };
+        this.touch = { x: 0, y: 0, active: false, dx: 0, dy: 0, shot: false };
 
-        this.touch = {
-            x: 0,
-            y: 0,
-            active: false,
-            dx: 0,
-            dy: 0,
-            shot: false,
-        };
+        // キー
+        window.addEventListener("keydown", e => this.keys[e.key] = true);
+        window.addEventListener("keyup", e => this.keys[e.key] = false);
 
-        // --- keyboard ---
-        window.addEventListener("keydown", e => {
-            this.keys[e.key] = true;
-        });
-        window.addEventListener("keyup", e => {
-            this.keys[e.key] = false;
-        });
-
-        // --- mouse ---
-        canvas.addEventListener("mousemove", e => {
-            const rect = canvas.getBoundingClientRect();
-            this.mouse.x = e.clientX - rect.left;
-            this.mouse.y = e.clientY - rect.top;
-        });
-
-        canvas.addEventListener("mousedown", () => {
+        // マウス
+        canvas.addEventListener("mousedown", e => {
+            const { x, y } = this._getPos(e);
+            this.mouse.x = x;
+            this.mouse.y = y;
             this.mouse.clicked = true;
-            this.touch.shot = true;  // クリックでも撃てるように
         });
 
-        canvas.addEventListener("mouseup", () => {
-            this.mouse.clicked = false;
+        canvas.addEventListener("mousemove", e => {
+            const { x, y } = this._getPos(e);
+            this.mouse.x = x;
+            this.mouse.y = y;
         });
 
-        // --- touch ---
-        // canvas.addEventListener("touchstart", e => {
-        //     const t = e.touches[0];
-        //     this.touch.x = t.clientX;
-        //     this.touch.y = t.clientY;
-        //     this.touch.active = true;
-        //     this.touch.shot = true;   // タップで弾発射
-        // });
+        // タッチ
         canvas.addEventListener("touchstart", e => {
             const t = e.touches[0];
-            const rect = canvas.getBoundingClientRect();
-
-            this.touch.x = t.clientX - rect.left;
-            this.touch.y = t.clientY - rect.top;
-
+            const { x, y } = this._getPos(t);
+            this.touch.x = x;
+            this.touch.y = y;
             this.touch.active = true;
-            this.touch.shot = true;
+            this.touch.shot = true; // タップ = ショット
         });
 
-
-        // canvas.addEventListener("touchmove", e => {
-        //     const t = e.touches[0];
-        //     this.touch.dx = t.clientX - this.touch.x;
-        //     this.touch.dy = t.clientY - this.touch.y;
-
-        //     this.touch.x = t.clientX;
-        //     this.touch.y = t.clientY;
-        // });
         canvas.addEventListener("touchmove", e => {
             const t = e.touches[0];
-            const rect = canvas.getBoundingClientRect();
+            const { x, y } = this._getPos(t);
 
-            const newX = t.clientX - rect.left;
-            const newY = t.clientY - rect.top;
+            this.touch.dx = x - this.touch.x;
+            this.touch.dy = y - this.touch.y;
 
-            this.touch.dx = newX - this.touch.x;
-            this.touch.dy = newY - this.touch.y;
-
-            this.touch.x = newX;
-            this.touch.y = newY;
+            this.touch.x = x;
+            this.touch.y = y;
         });
-
 
         canvas.addEventListener("touchend", () => {
             this.touch.active = false;
-            this.touch.dx = 0;
-            this.touch.dy = 0;
         });
     }
+
+    // 800x600 の内部座標へ変換
+    _getPos(e) {
+        const rect = this.canvas.getBoundingClientRect();
+        const scaleX = this.canvas._scaleX ?? 1;
+        const scaleY = this.canvas._scaleY ?? 1;
+
+        return {
+            x: (e.clientX - rect.left) / scaleX,
+            y: (e.clientY - rect.top) / scaleY
+        };
+    }
 }
-
-
-// export class Input {
-//     constructor(canvas) {
-//         this.keys = {};
-//         this.mouse = { x: 0, y: 0, clicked: false };
-//         this.touch = { x: 0, y: 0, active: false, dx: 0, dy: 0 };
-
-//         // --- keyboard ---
-//         window.addEventListener("keydown", e => this.keys[e.key] = true);
-//         window.addEventListener("keyup", e => this.keys[e.key] = false);
-
-//         // --- mouse ---
-//         canvas.addEventListener("mousemove", e => {
-//             const r = canvas.getBoundingClientRect();
-//             this.mouse.x = e.clientX - r.left;
-//             this.mouse.y = e.clientY - r.top;
-//         });
-//         canvas.addEventListener("mousedown", () => this.mouse.clicked = true);
-
-//         // --- touch ---
-//         canvas.addEventListener("touchstart", e => {
-//             const t = e.touches[0];
-//             this.touch.x = t.clientX;
-//             this.touch.y = t.clientY;
-//             this.touch.active = true;
-//         });
-
-//         canvas.addEventListener("touchmove", e => {
-//             const t = e.touches[0];
-//             this.touch.dx = t.clientX - this.touch.x;
-//             this.touch.dy = t.clientY - this.touch.y;
-//             this.touch.x = t.clientX;
-//             this.touch.y = t.clientY;
-//         });
-
-//         canvas.addEventListener("touchend", () => {
-//             this.touch.active = false;
-//         });
-//     }
-// }
-
-// export class Input {
-//     constructor(canvas) {
-//         this.keys = {};
-//         this.mouse = { x: 0, y: 0, clicked: false };
-
-//         window.addEventListener("keydown", e => {
-//             this.keys[e.key] = true;
-//         });
-//         window.addEventListener("keyup", e => {
-//             this.keys[e.key] = false;
-//         });
-
-//         canvas.addEventListener("mousemove", e => {
-//             const rect = canvas.getBoundingClientRect();
-//             this.mouse.x = e.clientX - rect.left;
-//             this.mouse.y = e.clientY - rect.top;
-//         });
-
-//         canvas.addEventListener("mousedown", () => {
-//             this.mouse.clicked = true;
-//         });
-
-//         canvas.addEventListener("touchstart", e => {
-//             const t = e.touches[0];
-//             this.touchX = t.clientX;
-//             this.touchY = t.clientY;
-//             this.isTouching = true;
-//         });
-
-//         canvas.addEventListener("touchmove", e => {
-//             const t = e.touches[0];
-//             this.deltaX = t.clientX - this.touchX;
-//             this.deltaY = t.clientY - this.touchY;
-//             this.touchX = t.clientX;
-//             this.touchY = t.clientY;
-//         });
-
-//         canvas.addEventListener("touchend", e => {
-//             this.isTouching = false;
-//         });
-//     }
-// }

@@ -42,5 +42,8 @@ export class BossStage1 extends BossBase {
             ctx.fillStyle = "red";
             ctx.fillRect(this.x - 20, this.y - 20, 80, 80);
         }
+
+        // ← 追加：当たり判定円表示
+        super.draw(ctx);
     }
 }

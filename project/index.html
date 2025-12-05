@@ -5,18 +5,21 @@
     <title>Shooting Game</title>
     <style>
         body {
-        margin: 0;
-        background: white;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+            margin: 0;
+            background: black;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         canvas {
-        background: lightgray;
-        border: 1px solid #444;
-        touch-action: none;
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* ← アスペクト比を一定にして最大化 */
+            background: lightgray;
+            border: 1px solid #444;
+            touch-action: none;
         }
     </style>
 </head>
@@ -32,38 +35,39 @@
     const canvas = document.getElementById("game");
     const game = new Game(canvas);
 
-    // ---- 画像アセットを登録する ----
+    // ---- 画像アセット ----
     const assets = new AssetLoader();
-
     const imageList = [
         { name: "player", path: "./assets/images/player.png" },
         { name: "boss1", path: "./assets/images/boss1.png" },
         { name: "boss2", path: "./assets/images/boss2.png" },
         { name: "boss1_bullet", path: "./assets/images/boss1_bullet.png" },
-        { name: "boss2_bullet", path: "./assets/images/boss2_bullet.png" },
-
-    //     { name: "support_shield", path: "./assets/images/support_shield.png" },
-    //     { name: "support_bomb", path: "./assets/images/support_bomb.png" },
-    //     { name: "ui_stock", path: "./assets/images/ui_stock.png" }
+        { name: "boss2_bullet", path: "./assets/images/boss2_bullet.png" }
     ];
+
+    // ---- Canvas リサイズ設定 ----
+    function resizeCanvas() {
+        const width = canvas.width;   // 800
+        const height = canvas.height; // 600
+
+        // CSS による clientWidth / clientHeight を元に scale を計算
+        canvas._scaleX = canvas.clientWidth / width;
+        canvas._scaleY = canvas.clientHeight / height;
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas(); // 初回
 
     // ---- ゲーム開始 ----
     assets.loadImages(imageList).then(() => {
-        console.log("Assets loaded!");
-
-        // 全シーンから assets を参照できるようにする
         game.assets = assets;
-
-        // 最初は TitleScene に遷移
         game.changeScene(new TitleScene(game));
-
         game.start();
-    }).catch(err => {
-        console.error("Asset load failed.", err);
     });
 
 </script>
-<!-- iPhoneのダブルタップズーム防止 -->
+
+<!-- iPhone ダブルタップ防止 -->
 <script>
 document.addEventListener("touchstart", e => {
     if (e.touches.length > 1) e.preventDefault();
@@ -74,5 +78,3 @@ document.addEventListener("gesturestart", e => e.preventDefault());
 
 </body>
 </html>
-
-

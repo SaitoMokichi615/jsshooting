@@ -45,5 +45,12 @@ export class BossBase {
         this.bullets.push(b);
     }
 
-    draw(ctx) {}
+    draw(ctx) {
+        // --- 当たり判定の円を描画（デバッグ用） ---
+        ctx.strokeStyle = "lime";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.hitRadius, 0, Math.PI * 2);
+        ctx.stroke();
+    }
 }
