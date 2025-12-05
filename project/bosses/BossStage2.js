@@ -1,39 +1,32 @@
+// /bosses/BossStage2.js
+import { BossBase } from "./BossBase.js";
+import { Bullet } from "../objects/Bullet.js";
+
 export class BossStage2 extends BossBase {
     updatePhase1(dt) {
-        this.fireStraight(dt);
-    }
-
-    updatePhase2(dt) {
-        this.fireSpread(dt);
-    }
-
-    updatePhase3(dt) {
-        this.fireHoming(dt);
-    }
-
-    fireStraight(dt) {
-        this.fireTimer += dt;
-        if (this.fireTimer > 1) {
+        if (this.fireTimer > 0.7) {
             this.fireTimer = 0;
-            this.spawnBullet(new Bullet(this.x, this.y, -200, 0));
+            this.spawnBullet(new Bullet(this.x, this.y, -250, 0));
         }
     }
 
-    fireSpread(dt) {
-        this.fireTimer += dt;
-        if (this.fireTimer > 0.6) {
+    updatePhase2(dt) {
+        if (this.fireTimer > 0.4) {
             this.fireTimer = 0;
-            for (let a = -0.5; a <= 0.5; a += 0.2) {
+            for (let a = -0.5; a <= 0.5; a += 0.25) {
                 this.spawnBullet(new Bullet(this.x, this.y, -200, 200 * a));
             }
         }
     }
 
-    fireHoming(dt) {
-        this.fireTimer += dt;
-        if (this.fireTimer > 1.5) {
-            this.fireTimer = 0;
-            this.spawnBullet(new HomingBullet(this.x, this.y, 150, this.game.player));
+    
+    draw(ctx) {
+        const img = this.game.assets.getImage("boss2");
+        if (img) {
+            ctx.drawImage(img, this.x - 20, this.y - 20, 40, 40);
+        } else {
+            ctx.fillStyle = "red";
+            ctx.fillRect(this.x - 20, this.y - 20, 40, 40);
         }
     }
 }

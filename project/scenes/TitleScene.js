@@ -19,7 +19,7 @@ export class TitleScene extends Scene {
             const w = 200;
             const h = 40;
 
-            const isClickable = (i <= this.unlockedStage);
+            // const isClickable = (i <= this.unlockedStage);
 
             if (isClickable &&
                 mouse.x >= x && mouse.x <= x + w &&

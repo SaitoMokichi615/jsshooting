@@ -16,6 +16,7 @@
         canvas {
         background: lightgray;
         border: 1px solid #444;
+        touch-action: none;
         }
     </style>
 </head>
@@ -36,7 +37,9 @@
 
     const imageList = [
         { name: "player", path: "./assets/images/player.png" },
-        { name: "boss", path: "./assets/images/boss.png" },
+        { name: "boss1", path: "./assets/images/boss1.png" },
+        { name: "boss2", path: "./assets/images/boss2.png" },
+
     //     { name: "bullet", path: "./assets/images/bullet.png" },
     //     { name: "support_shield", path: "./assets/images/support_shield.png" },
     //     { name: "support_bomb", path: "./assets/images/support_bomb.png" },
@@ -59,6 +62,15 @@
     });
 
 </script>
+<!-- iPhoneのダブルタップズーム防止 -->
+<script>
+document.addEventListener("touchstart", e => {
+    if (e.touches.length > 1) e.preventDefault();
+}, { passive: false });
+
+document.addEventListener("gesturestart", e => e.preventDefault());
+</script>
+
 </body>
 </html>
 

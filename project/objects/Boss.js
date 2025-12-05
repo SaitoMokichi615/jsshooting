@@ -35,9 +35,14 @@ export class Boss {
     }
 
     draw(ctx) {
-        ctx.fillStyle = "red";
-        ctx.fillRect(this.x - 30, this.y - 30, 60, 60);
+        const img = this.game.assets.getImage("boss");
+        if (img) {
+            ctx.drawImage(img, this.x - 20, this.y - 20, 40, 40);
+        } else {
+            ctx.fillStyle = "red";
+            ctx.fillRect(this.x - 20, this.y - 20, 40, 40);
+        }
 
-        this.bullets.forEach(b => b.draw(ctx));
+        // this.bullets.forEach(b => b.draw(ctx));
     }
 }

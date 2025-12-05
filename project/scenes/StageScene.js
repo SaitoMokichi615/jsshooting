@@ -3,6 +3,7 @@ import { Scene } from "../core/Scene.js";
 import { Player } from "../objects/Player.js";
 import { Boss } from "../objects/Boss.js";
 import { TitleScene } from "./TitleScene.js";
+import * as Bosses from "../bosses/index.js";
 
 export class StageScene extends Scene {
     constructor(game, stageNumber) {
@@ -13,18 +14,25 @@ export class StageScene extends Scene {
 
     init() {
         this.player = new Player(50, this.game.canvas.height / 2, this.game);
-        this.boss = new Boss(
+                // ▼ ボス生成（ファクトリパターン）
+        const BossClass = Bosses[`BossStage${this.stageNumber}`] || Bosses.BossBase;
+        this.boss = new BossClass(
             this.game.canvas.width - 100,
             this.game.canvas.height / 2,
-            this.stageNumber,
             this.game
         );
+        // this.boss = new Boss(
+        //     this.game.canvas.width - 100,
+        //     this.game.canvas.height / 2,
+        //     this.stageNumber,
+        //     this.game
+        // );
 
         // ボタンの位置
         this.button = {
             x: 150,
             y: 350,
-            w: 100,
+            w: 120,
             h: 40
         };
 
@@ -107,9 +115,12 @@ export class StageScene extends Scene {
             this.boss.draw(ctx);
         }
 
-        for (let b of this.player.bullets) {
-            b.draw(ctx);
-        }
+        // for (let b of this.player.bullets) {
+        //     b.draw(ctx);
+        // }
+        // 弾の描画
+        this.player.bullets.forEach(b => b.draw(ctx));
+        this.boss.bullets.forEach(b => b.draw(ctx));
 
         // 勝敗時の UI
         if (this.state === "win") {
