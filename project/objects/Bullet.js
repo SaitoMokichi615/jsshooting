@@ -31,7 +31,7 @@ export class Bullet {
     draw(ctx) {
         const img = this.game.assets.getImage(this.spriteName);
         if (img) {
-            ctx.drawImage(img, this.x - 8, this.y - 8, 16, 16);
+            ctx.drawImage(img, this.x - this.r, this.y - this.r, this.r*2, this.r*2);
         } 
         else {
             ctx.fillStyle = "yellow";

@@ -6,7 +6,7 @@ export class BossStage1 extends BossBase {
     updatePhase1(dt) {
         if (this.fireTimer > 1) {
             this.fireTimer = 0;
-            this.spawnBullet(new Bullet(this.x, this.y, -200, 0, this.game, "boss1_bullet"));
+            this.spawnBullet(new Bullet(this.x, this.y, -200, 0, this.game, "boss1_bullet", 16));
         }
     }
 
