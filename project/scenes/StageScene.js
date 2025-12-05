@@ -146,7 +146,33 @@ export class StageScene extends Scene {
     }
 
     destroy() {
-        console.log("ですとろい")
+        console.log("destroy StageScene");
+
+        // イベント削除
         this.game.canvas.removeEventListener("mousedown", this._onMouseDown);
+
+        // --- プレイヤーの弾をクリア ---
+        if (this.player) {
+            this.player.bullets = [];
+        }
+
+        // --- ボスの弾をクリア ---
+        if (this.boss) {
+            this.boss.bullets = [];
+        }
+
+        // --- タイマー停止（ボスの弾幕など） ---
+        if (this.boss && this.boss.timers) {
+            for (let t of this.boss.timers) {
+                clearTimeout(t);
+                clearInterval(t);
+            }
+            this.boss.timers = [];
+        }
+
+        // --- オブジェクトの参照を切る ---
+        this.player = null;
+        this.boss = null;
     }
+
 }
