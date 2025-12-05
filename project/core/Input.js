@@ -32,6 +32,10 @@ export class Input {
             this.touch.shot = true;  // クリックでも撃てるように
         });
 
+        canvas.addEventListener("mouseup", () => {
+            this.mouse.clicked = false;
+        });
+
         // --- touch ---
         canvas.addEventListener("touchstart", e => {
             const t = e.touches[0];

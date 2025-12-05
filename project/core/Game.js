@@ -39,7 +39,10 @@ export class Game {
     }
 
     changeScene(newScene) {
-        if (this.currentScene && typeof this.currentScene.destroy === "function") {
+        this.input.mouse.clicked = false;
+        this.input.touch.shot = false;
+
+        if (this.currentScene) {
             this.currentScene.destroy();
         }
         this.currentScene = newScene;

@@ -6,4 +6,5 @@ export class Scene {
     init() {}
     update(dt) {}
     draw(ctx) {}
+    destroy() {}
 }

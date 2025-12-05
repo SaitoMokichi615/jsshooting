@@ -31,6 +31,7 @@ export class StageScene extends Scene {
         };
 
         this._onMouseDown = (e) => {
+            console.log("クリックイベント")
             if (this.state === "win" || this.state === "lose") {
                 const rect = this.game.canvas.getBoundingClientRect();
                 const mx = e.clientX - rect.left;
@@ -145,6 +146,7 @@ export class StageScene extends Scene {
     }
 
     destroy() {
+        console.log("ですとろい")
         this.game.canvas.removeEventListener("mousedown", this._onMouseDown);
     }
 }
