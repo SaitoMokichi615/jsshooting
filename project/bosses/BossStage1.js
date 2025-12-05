@@ -13,10 +13,10 @@ export class BossStage1 extends BossBase {
     draw(ctx) {
         const img = this.game.assets.getImage("boss1");
         if (img) {
-            ctx.drawImage(img, this.x - 20, this.y - 20, 40, 40);
+            ctx.drawImage(img, this.x - 20, this.y - 20, 80, 80);
         } else {
             ctx.fillStyle = "red";
-            ctx.fillRect(this.x - 20, this.y - 20, 40, 40);
+            ctx.fillRect(this.x - 20, this.y - 20, 80, 80);
         }
     }
 }
