@@ -39,6 +39,9 @@ export class Game {
     }
 
     changeScene(newScene) {
+        if (this.currentScene && typeof this.currentScene.destroy === "function") {
+            this.currentScene.destroy();
+        }
         this.currentScene = newScene;
         this.currentScene.init();
     }

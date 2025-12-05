@@ -6,7 +6,7 @@ export class BossBase {
         this.y = y;
         this.game = game;
 
-        this.hp = 300;
+        this.hp = 150;
         this.phase = 1;
 
         this.bullets = [];
@@ -32,8 +32,8 @@ export class BossBase {
     }
 
     updatePhase() {
-        if (this.hp < 200 && this.phase === 1) this.phase = 2;
-        if (this.hp < 100 && this.phase === 2) this.phase = 3;
+        if (this.hp < 100 && this.phase === 1) this.phase = 2;
+        if (this.hp < 50 && this.phase === 2) this.phase = 3;
     }
 
     // 各ステージで override

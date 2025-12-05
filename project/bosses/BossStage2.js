@@ -4,23 +4,21 @@ import { OrbitalBullet } from "../bullets/OrbitalBullet.js";
 
 export class BossStage2 extends BossBase {
     
-
     updatePhase1(dt) {
-        if (this.fireTimer > 1.5) {
+        if (this.fireTimer > 1.0) {
             this.fireTimer = 0;
 
-            // 6個の円軌道弾を一斉発射
-            for (let i = 0; i < 6; i++) {
-                const angle = (Math.PI * 2 / 6) * i;
+            // 12方向の波状攻撃
+            for (let i = 0; i < 12; i++) {
+                const angle = (Math.PI * 2 / 12) * i;
 
                 this.spawnBullet(
                     new OrbitalBullet(
-                        this,        // ボスの中心を追従
-                        angle,       // 初期角度
-                        20,          // 最小半径
-                        120,         // 最大半径
-                        2,           // 回転速度
-                        40,          // 半径伸縮速度
+                        this,       // ボス中心
+                        angle,      // 初期角度
+                        10,         // 初期半径
+                        1.5,        // 回転速度
+                        120,        // 半径拡大速度
                         this.game,
                         "boss2_bullet",
                         16
@@ -29,6 +27,7 @@ export class BossStage2 extends BossBase {
             }
         }
     }
+
 
     draw(ctx) {
         const img = this.game.assets.getImage("boss2");

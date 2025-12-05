@@ -30,19 +30,6 @@ export class StageScene extends Scene {
             h: 40
         };
 
-        // // マウスイベント
-        // this.game.canvas.addEventListener("mousedown", (e) => {
-        //     if (this.state === "win" || this.state === "lose") {
-        //         const rect = this.game.canvas.getBoundingClientRect();
-        //         const mx = e.clientX - rect.left;
-        //         const my = e.clientY - rect.top;
-
-        //         if (mx >= this.button.x && mx <= this.button.x + this.button.w &&
-        //             my >= this.button.y && my <= this.button.y + this.button.h) {
-        //             this.game.changeScene(new TitleScene(this.game));
-        //         }
-        //     }
-        // });
         this._onMouseDown = (e) => {
             if (this.state === "win" || this.state === "lose") {
                 const rect = this.game.canvas.getBoundingClientRect();
