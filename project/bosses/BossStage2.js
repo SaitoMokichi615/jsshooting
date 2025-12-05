@@ -19,6 +19,7 @@ export class BossStage2 extends BossBase {
                         10,         // 初期半径
                         1.5,        // 回転速度
                         120,        // 半径拡大速度
+                        12,         // 弾生存時間
                         this.game,
                         "boss2_bullet",
                         16
