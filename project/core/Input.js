@@ -37,22 +37,47 @@ export class Input {
         });
 
         // --- touch ---
+        // canvas.addEventListener("touchstart", e => {
+        //     const t = e.touches[0];
+        //     this.touch.x = t.clientX;
+        //     this.touch.y = t.clientY;
+        //     this.touch.active = true;
+        //     this.touch.shot = true;   // タップで弾発射
+        // });
         canvas.addEventListener("touchstart", e => {
             const t = e.touches[0];
-            this.touch.x = t.clientX;
-            this.touch.y = t.clientY;
+            const rect = canvas.getBoundingClientRect();
+
+            this.touch.x = t.clientX - rect.left;
+            this.touch.y = t.clientY - rect.top;
+
             this.touch.active = true;
-            this.touch.shot = true;   // タップで弾発射
+            this.touch.shot = true;
         });
 
+
+        // canvas.addEventListener("touchmove", e => {
+        //     const t = e.touches[0];
+        //     this.touch.dx = t.clientX - this.touch.x;
+        //     this.touch.dy = t.clientY - this.touch.y;
+
+        //     this.touch.x = t.clientX;
+        //     this.touch.y = t.clientY;
+        // });
         canvas.addEventListener("touchmove", e => {
             const t = e.touches[0];
-            this.touch.dx = t.clientX - this.touch.x;
-            this.touch.dy = t.clientY - this.touch.y;
+            const rect = canvas.getBoundingClientRect();
 
-            this.touch.x = t.clientX;
-            this.touch.y = t.clientY;
+            const newX = t.clientX - rect.left;
+            const newY = t.clientY - rect.top;
+
+            this.touch.dx = newX - this.touch.x;
+            this.touch.dy = newY - this.touch.y;
+
+            this.touch.x = newX;
+            this.touch.y = newY;
         });
+
 
         canvas.addEventListener("touchend", () => {
             this.touch.active = false;

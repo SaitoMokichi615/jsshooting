@@ -9,8 +9,10 @@ export class TitleScene extends Scene {
     }
 
     update(dt) {
-        const mouse = this.game.input.mouse;
-        if (!mouse.clicked) return;
+        const input = this.game.input;
+        const clicked = input.mouse.clicked || input.touch.shot;
+
+        if (!clicked) return;
 
         // ------- ステージボタンクリック -------
         for (let i = 1; i <= 5; i++) {
@@ -23,8 +25,8 @@ export class TitleScene extends Scene {
 
             if (
                 // isClickable &&
-                mouse.x >= x && mouse.x <= x + w &&
-                mouse.y >= y && mouse.y <= y + h) {
+                input.mouse.x >= x && input.mouse.x <= x + w &&
+                input.mouse.y >= y && input.mouse.y <= y + h) {
                 
                 // 画面遷移
                 this.game.changeScene(new StageScene(this.game, i));
@@ -34,8 +36,8 @@ export class TitleScene extends Scene {
 
         // ------- 支援ユニット選択画面 -------
         const ux = 100, uy = 450, uw = 200, uh = 40;
-        if (mouse.x >= ux && mouse.x <= ux + uw &&
-            mouse.y >= uy && mouse.y <= uy + uh) {
+        if (input.mouse.x >= ux && input.mouse.x <= ux + uw &&
+            input.mouse.y >= uy && input.mouse.y <= uy + uh) {
 
             this.game.changeScene(new SupportSelectScene(this.game));
             return;
