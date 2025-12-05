@@ -21,7 +21,8 @@ export class TitleScene extends Scene {
 
             // const isClickable = (i <= this.unlockedStage);
 
-            if (isClickable &&
+            if (
+                // isClickable &&
                 mouse.x >= x && mouse.x <= x + w &&
                 mouse.y >= y && mouse.y <= y + h) {
                 
@@ -48,7 +49,8 @@ export class TitleScene extends Scene {
 
         // ステージボタン描画
         for (let i = 1; i <= 5; i++) {
-            ctx.fillStyle = (i <= this.unlockedStage) ? "green" : "gray";
+            // ctx.fillStyle = (i <= this.unlockedStage) ? "green" : "gray";
+            ctx.fillStyle = "green"
             ctx.fillRect(100, 120 + i * 50, 200, 40);
             ctx.fillStyle = "white";
             ctx.fillText(`Stage ${i}`, 150, 150 + i * 50);
