@@ -21,12 +21,6 @@ export class StageScene extends Scene {
             this.game.canvas.height / 2,
             this.game
         );
-        // this.boss = new Boss(
-        //     this.game.canvas.width - 100,
-        //     this.game.canvas.height / 2,
-        //     this.stageNumber,
-        //     this.game
-        // );
 
         // ボタンの位置
         this.button = {
@@ -36,8 +30,20 @@ export class StageScene extends Scene {
             h: 40
         };
 
-        // マウスイベント
-        this.game.canvas.addEventListener("mousedown", (e) => {
+        // // マウスイベント
+        // this.game.canvas.addEventListener("mousedown", (e) => {
+        //     if (this.state === "win" || this.state === "lose") {
+        //         const rect = this.game.canvas.getBoundingClientRect();
+        //         const mx = e.clientX - rect.left;
+        //         const my = e.clientY - rect.top;
+
+        //         if (mx >= this.button.x && mx <= this.button.x + this.button.w &&
+        //             my >= this.button.y && my <= this.button.y + this.button.h) {
+        //             this.game.changeScene(new TitleScene(this.game));
+        //         }
+        //     }
+        // });
+        this._onMouseDown = (e) => {
             if (this.state === "win" || this.state === "lose") {
                 const rect = this.game.canvas.getBoundingClientRect();
                 const mx = e.clientX - rect.left;
@@ -48,7 +54,8 @@ export class StageScene extends Scene {
                     this.game.changeScene(new TitleScene(this.game));
                 }
             }
-        });
+        };
+        this.game.canvas.addEventListener("mousedown", this._onMouseDown);
     }
 
     update(dt) {
@@ -148,5 +155,9 @@ export class StageScene extends Scene {
         ctx.fillStyle = "black";
         ctx.font = "20px sans-serif";
         ctx.fillText(text, this.button.x + 10, this.button.y + 26);
+    }
+
+    destroy() {
+        this.game.canvas.removeEventListener("mousedown", this._onMouseDown);
     }
 }
