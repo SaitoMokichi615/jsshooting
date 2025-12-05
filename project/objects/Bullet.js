@@ -1,10 +1,11 @@
 export class Bullet {
-    constructor(x, y, vx, vy) {
+    constructor(x, y, vx, vy, spriteName, r=8) {
         this.x = x;
         this.y = y;
         this.vx = vx;
         this.vy = vy;
-        this.r = 8;
+        this.r = r;
+        this.spriteName = spriteName
         this.damage = 1;
         this.isDead = false; // ← 弾を消すフラグ
     }
@@ -27,9 +28,15 @@ export class Bullet {
     }
 
     draw(ctx) {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-        ctx.fillStyle = "yellow";
-        ctx.fill();
+        const img = assets.getImage(this.spriteName);
+        if (img) {
+            ctx.drawImage(img, this.x - 8, this.y - 8, 16, 16);
+        } 
+        else {
+            ctx.fillStyle = "yellow";
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+            ctx.fill();
+        }
     }
 }
